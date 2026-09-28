@@ -34,20 +34,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <p class="required-note"><span aria-hidden="true">*</span> Required fields</p>
 
       <form
+        id="contribution-form"
         class="contribution-form"
         action="https://formspree.io/f/xnpnlpzq"
         method="POST"
-        data-contribution-form
       >
         <div class="form-grid">
           <div class="form-field form-field-full">
             <label for="game-title">Game title <span aria-hidden="true">*</span></label>
-            <input id="game-title" name="game_title" type="text" autocomplete="off" required />
+            <input id="game-title" name="game_title" type="text" autocomplete="off" required data-fs-field />
           </div>
 
           <div class="form-field">
             <label for="suggested-category">Suggested category <span aria-hidden="true">*</span></label>
-            <select id="suggested-category" name="suggested_category" required>
+            <select id="suggested-category" name="suggested_category" required data-fs-field>
               <option value="">Choose a category</option>
               <option value="Potato Approved">Potato Approved</option>
               <option value="Fries Approved">Fries Approved</option>
@@ -57,22 +57,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
           <div class="form-field">
             <label for="gpu">GPU / iGPU <span aria-hidden="true">*</span></label>
-            <input id="gpu" name="gpu" type="text" autocomplete="off" required />
+            <input id="gpu" name="gpu" type="text" autocomplete="off" required data-fs-field />
           </div>
 
           <div class="form-field">
             <label for="cpu">CPU</label>
-            <input id="cpu" name="cpu" type="text" autocomplete="off" />
+            <input id="cpu" name="cpu" type="text" autocomplete="off" data-fs-field />
           </div>
 
           <div class="form-field">
             <label for="ram">RAM</label>
-            <input id="ram" name="ram" type="text" autocomplete="off" />
+            <input id="ram" name="ram" type="text" autocomplete="off" data-fs-field />
           </div>
 
           <div class="form-field">
             <label for="resolution">Resolution</label>
-            <select id="resolution" name="resolution">
+            <select id="resolution" name="resolution" data-fs-field>
               <option value="">Choose a resolution</option>
               <option value="720p">720p</option>
               <option value="900p">900p</option>
@@ -84,7 +84,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
           <div class="form-field">
             <label for="graphics-settings">Graphics settings</label>
-            <select id="graphics-settings" name="graphics_settings">
+            <select id="graphics-settings" name="graphics_settings" data-fs-field>
               <option value="">Choose settings</option>
               <option value="Very Low">Very Low</option>
               <option value="Low">Low</option>
@@ -96,7 +96,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
           <div class="form-field form-field-full">
             <label for="performance">Performance <span aria-hidden="true">*</span></label>
-            <input id="performance" name="performance" type="text" placeholder="45-60 FPS" autocomplete="off" required />
+            <input id="performance" name="performance" type="text" placeholder="45-60 FPS" autocomplete="off" required data-fs-field />
           </div>
 
           <div class="form-field form-field-full">
@@ -106,6 +106,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               name="experience"
               required
               aria-describedby="experience-help"
+              data-fs-field
             ></textarea>
             <p class="field-help" id="experience-help">
               How playable did the game feel? Mention important frame drops, stutters, or other problems.
@@ -120,6 +121,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               type="email"
               autocomplete="email"
               aria-describedby="email-help"
+              data-fs-field
             />
             <p class="field-help" id="email-help">Only used if clarification is needed.</p>
           </div>
@@ -131,12 +133,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <label class="confirmation-field" for="personal-test">
-          <input id="personal-test" name="personally_tested" type="checkbox" value="Yes" required />
+          <input id="personal-test" name="personally_tested" type="checkbox" value="Yes" required data-fs-field />
           <span>I personally tested this game on the hardware described above.</span>
         </label>
 
         <div class="form-actions">
-          <button class="submit-button" type="submit" data-submit-button>Send contribution</button>
+          <button class="submit-button" type="submit" data-fs-submit-btn>Send contribution</button>
           <p class="form-status" data-form-status aria-live="polite" role="status"></p>
         </div>
       </form>
@@ -144,44 +146,74 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
 </BaseLayout>
 
-<script>
-  const form = document.querySelector<HTMLFormElement>('[data-contribution-form]');
-  const submitButton = document.querySelector<HTMLButtonElement>('[data-submit-button]');
-  const statusMessage = document.querySelector<HTMLElement>('[data-form-status]');
+<script is:inline>
+  window.formspree = window.formspree || function () {
+    (window.formspree.q = window.formspree.q || []).push(arguments);
+  };
 
-  if (form && submitButton && statusMessage) {
-    let isSubmitting = false;
+  const fallbackError = 'Something went wrong. Please try again.';
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (isSubmitting) return;
+  function getErrorMessage(error) {
+    if (typeof error === 'string' && error.trim()) return error;
+    if (!error || typeof error !== 'object') return fallbackError;
 
-      isSubmitting = true;
-      submitButton.disabled = true;
-      submitButton.textContent = 'Sending...';
-      statusMessage.textContent = '';
-      statusMessage.removeAttribute('data-state');
+    if (typeof error.message === 'string' && error.message.trim()) {
+      return error.message;
+    }
 
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' },
-        });
+    if (typeof error.getFormErrors === 'function') {
+      const messages = error.getFormErrors()
+        .map((item) => typeof item === 'string' ? item : item?.message)
+        .filter(Boolean);
+      if (messages.length) return messages.join(' ');
+    }
 
-        if (!response.ok) throw new Error('Formspree rejected the submission.');
+    if (Array.isArray(error.errors)) {
+      const messages = error.errors
+        .map((item) => typeof item === 'string' ? item : item?.message)
+        .filter(Boolean);
+      if (messages.length) return messages.join(' ');
+    }
 
-        form.reset();
-        statusMessage.dataset.state = 'success';
-        statusMessage.textContent = 'Thanks for contributing! Your result has been sent for review.';
-      } catch {
-        statusMessage.dataset.state = 'error';
-        statusMessage.textContent = 'Something went wrong. Please try again. Your entered information has been kept.';
-      } finally {
-        isSubmitting = false;
-        submitButton.disabled = false;
-        submitButton.textContent = 'Send contribution';
-      }
-    });
+    return fallbackError;
   }
+
+  function setFormStatus(form, state, message) {
+    const status = form.querySelector('[data-form-status]');
+    if (!status) return;
+
+    status.dataset.state = state;
+    status.textContent = message;
+  }
+
+  window.formspree('initForm', {
+    formElement: '#contribution-form',
+    formId: 'xnpnlpzq',
+    disable: ({ form }) => {
+      const button = form.querySelector('[data-fs-submit-btn]');
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Sending...';
+      }
+      setFormStatus(form, '', '');
+    },
+    enable: ({ form }) => {
+      const button = form.querySelector('[data-fs-submit-btn]');
+      if (button) {
+        button.disabled = false;
+        button.textContent = 'Send contribution';
+      }
+    },
+    renderSuccess: ({ form }) => {
+      form.reset();
+      setFormStatus(form, 'success', 'Thanks for contributing! Your result has been sent for review.');
+    },
+    renderFormError: ({ form }, error) => {
+      setFormStatus(form, 'error', getErrorMessage(error));
+    },
+    renderFieldErrors: ({ form }, error) => {
+      setFormStatus(form, 'error', getErrorMessage(error));
+    },
+  });
 </script>
+<script is:inline src="https://unpkg.com/@formspree/ajax@1" defer></script>

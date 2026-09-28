@@ -1,13 +1,12 @@
 ---
-title: Celeste en sah
+title: Celeste
 category: potato
-image: https://picsum.photos/id/35/1280/1920.webp
+image: /games/Celeste_box_art_full.png
 year: 2018
 genre: Platformer
 hardware: iGPU - 760M (Ryzen 8600g)
-performance: Low settings · performance varies (demo placeholder)
-description: A compact platformer included as sample catalogue content. Replace
-  these hardware notes with tested results. qui pue
+performance: 1440p 60+ FPS
+description: Only good game. No problem - Potato Approved
 storeUrl: https://store.steampowered.com/app/504230/Celeste/
 storeLabel: View on Steam
 ---

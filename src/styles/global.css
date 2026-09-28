@@ -1,4 +1,6 @@
 /* Theme */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
+
 :root {
   color-scheme: light;
   --background: #f4f0e8;

@@ -152,7 +152,7 @@ h1, h2, p { margin-top: 0; }
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(3rem, 9vw, 6.8rem);
   line-height: .84;
-  letter-spacing: -.065em;
+  letter-spacing: 0em;
 }
 
 .home-wordmark span { display: block; }

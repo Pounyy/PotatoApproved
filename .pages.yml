@@ -1,0 +1,64 @@
+media:
+  input: public/games
+  output: /games
+  extensions: [webp, jpg, jpeg, png, svg]
+
+content:
+  - name: games
+    label: Games
+    type: collection
+    path: src/content/games
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, category, year]
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: category
+        label: Category
+        type: select
+        required: true
+        options:
+          values:
+            - name: potato
+              label: Potato Approved
+            - name: fries
+              label: Fries Approved
+      - name: image
+        label: Cover image
+        type: image
+        required: true
+        options:
+          extensions: [webp, jpg, jpeg, png, svg]
+      - name: year
+        label: Year
+        type: number
+        required: true
+      - name: genre
+        label: Genre
+        type: string
+        required: true
+      - name: hardware
+        label: Hardware
+        type: string
+        required: true
+      - name: performance
+        label: Performance
+        type: string
+        required: true
+      - name: description
+        label: Short description
+        type: text
+        required: true
+      - name: storeUrl
+        label: Store URL
+        type: string
+        required: false
+      - name: storeLabel
+        label: Store label
+        type: string
+        required: false

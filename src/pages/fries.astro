@@ -3,14 +3,17 @@ import { getCollection } from 'astro:content';
 import GameList from '../components/GameList.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const games = await getCollection('games');
+const allGames = await getCollection('games');
+const friesGames = allGames.filter(({ data }) => data.category === 'fries');
+const gameCountLabel = `${friesGames.length} ${friesGames.length === 1 ? 'game' : 'games'}`;
 ---
 
 <BaseLayout title="Fries Approved games" description="PC games suited to older or low-end dedicated graphics cards.">
   <header class="page-heading fries-heading">
     <p class="eyebrow">CATEGORY 02</p>
     <h1>Fries Approved</h1>
+    <p class="category-count" data-category-count>{gameCountLabel}</p>
     <p>Games that want a dedicated GPU, but not a particularly powerful one.</p>
   </header>
-  <GameList games={games} category="fries" />
+  <GameList initialGames={friesGames} allGames={allGames} category="fries" />
 </BaseLayout>

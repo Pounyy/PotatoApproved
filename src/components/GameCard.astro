@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  game: CollectionEntry<'games'>['data'];
+}
+
+const { game } = Astro.props;
+const categoryLabel = game.category === 'potato' ? 'Potato Approved' : 'Fries Approved';
+---
+
+<article class="game-card">
+  <div class="cover-frame">
+    <img src={game.image} alt={`${game.title} cover placeholder`} width="180" height="270" loading="lazy" />
+  </div>
+  <div class="game-copy">
+    <div class="game-heading">
+      <h2>{game.title}</h2>
+      <span class:list={['badge', `badge-${game.category}`]}>{categoryLabel}</span>
+    </div>
+    <p class="game-meta">{game.genre} <span aria-hidden="true">·</span> {game.year}</p>
+    <dl class="specs">
+      <div><dt>Hardware</dt><dd>{game.hardware}</dd></div>
+      <div><dt>Performance</dt><dd>{game.performance}</dd></div>
+    </dl>
+    <p class="game-description">{game.description}</p>
+    {game.storeUrl && (
+      <a class="store-link" href={game.storeUrl} target="_blank" rel="noreferrer">
+        {game.storeLabel || 'View store'} <span aria-hidden="true">↗</span>
+      </a>
+    )}
+  </div>
+</article>

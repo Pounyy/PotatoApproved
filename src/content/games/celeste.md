@@ -1,7 +1,7 @@
 ---
 title: Celeste
 category: potato
-image: /games/Celeste_box_art_full.png
+image: /games/Celeste_box_art_full.webp
 year: 2018
 genre: Platformer
 hardware: iGPU - 760M (Ryzen 8600g)

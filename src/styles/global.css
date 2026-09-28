@@ -195,7 +195,7 @@ h1, h2, p { margin-top: 0; }
 
 /* Category pages */
 .page-heading { padding: 68px 0 38px; border-bottom: 1px solid var(--border); }
-.page-heading h1 { font-size: clamp(3rem, 8vw, 5.6rem); letter-spacing: -.035em; text-transform: uppercase; }
+.page-heading h1 { font-size: clamp(3rem, 8vw, 5.6rem); letter-spacing: 0em; text-transform: uppercase; }
 .category-count { margin: -6px 0 12px; color: var(--muted-text); font-family: Consolas, monospace; font-size: .78rem; font-weight: 700; text-transform: uppercase; }
 .fries-heading .eyebrow { color: var(--fries-accent); }
 

@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contribute"
+  description="Share a PC game result tested on modest hardware with Potato Approved."
+>
+  <header class="page-heading">
+    <p class="eyebrow">COMMUNITY TESTS</p>
+    <h1>Contribute</h1>
+    <p>Tested a game on modest hardware? Share your results and help grow Potato Approved.</p>
+  </header>
+
+  <div class="contribute-layout">
+    <aside class="contribution-guide" aria-labelledby="useful-information">
+      <p class="eyebrow">BEFORE YOU SEND</p>
+      <h2 id="useful-information">Useful information</h2>
+      <p>The most helpful results include:</p>
+      <ul>
+        <li>GPU / iGPU</li>
+        <li>Resolution</li>
+        <li>Graphics settings</li>
+        <li>Performance</li>
+        <li>Any important issues</li>
+      </ul>
+      <p class="review-note">
+        Submissions are reviewed manually and are not published automatically. Information may be corrected or clarified before publication.
+      </p>
+    </aside>
+
+    <section class="contribution-panel" aria-labelledby="contribution-form-heading">
+      <h2 id="contribution-form-heading">Share your result</h2>
+      <p class="required-note"><span aria-hidden="true">*</span> Required fields</p>
+
+      <form
+        class="contribution-form"
+        action="https://formspree.io/f/xnpnlpzq"
+        method="POST"
+        data-contribution-form
+      >
+        <div class="form-grid">
+          <div class="form-field form-field-full">
+            <label for="game-title">Game title <span aria-hidden="true">*</span></label>
+            <input id="game-title" name="game_title" type="text" autocomplete="off" required />
+          </div>
+
+          <div class="form-field">
+            <label for="suggested-category">Suggested category <span aria-hidden="true">*</span></label>
+            <select id="suggested-category" name="suggested_category" required>
+              <option value="">Choose a category</option>
+              <option value="Potato Approved">Potato Approved</option>
+              <option value="Fries Approved">Fries Approved</option>
+              <option value="Not sure">Not sure</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="gpu">GPU / iGPU <span aria-hidden="true">*</span></label>
+            <input id="gpu" name="gpu" type="text" autocomplete="off" required />
+          </div>
+
+          <div class="form-field">
+            <label for="cpu">CPU</label>
+            <input id="cpu" name="cpu" type="text" autocomplete="off" />
+          </div>
+
+          <div class="form-field">
+            <label for="ram">RAM</label>
+            <input id="ram" name="ram" type="text" autocomplete="off" />
+          </div>
+
+          <div class="form-field">
+            <label for="resolution">Resolution</label>
+            <select id="resolution" name="resolution">
+              <option value="">Choose a resolution</option>
+              <option value="720p">720p</option>
+              <option value="900p">900p</option>
+              <option value="1080p">1080p</option>
+              <option value="1440p">1440p</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="graphics-settings">Graphics settings</label>
+            <select id="graphics-settings" name="graphics_settings">
+              <option value="">Choose settings</option>
+              <option value="Very Low">Very Low</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+              <option value="Custom">Custom</option>
+            </select>
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="performance">Performance <span aria-hidden="true">*</span></label>
+            <input id="performance" name="performance" type="text" placeholder="45-60 FPS" autocomplete="off" required />
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="experience">Experience <span aria-hidden="true">*</span></label>
+            <textarea
+              id="experience"
+              name="experience"
+              required
+              aria-describedby="experience-help"
+            ></textarea>
+            <p class="field-help" id="experience-help">
+              How playable did the game feel? Mention important frame drops, stutters, or other problems.
+            </p>
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="contributor-email">Contributor email</label>
+            <input
+              id="contributor-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              aria-describedby="email-help"
+            />
+            <p class="field-help" id="email-help">Only used if clarification is needed.</p>
+          </div>
+        </div>
+
+        <div class="form-honeypot" aria-hidden="true">
+          <label for="website">Leave this field empty</label>
+          <input id="website" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <label class="confirmation-field" for="personal-test">
+          <input id="personal-test" name="personally_tested" type="checkbox" value="Yes" required />
+          <span>I personally tested this game on the hardware described above.</span>
+        </label>
+
+        <div class="form-actions">
+          <button class="submit-button" type="submit" data-submit-button>Send contribution</button>
+          <p class="form-status" data-form-status aria-live="polite" role="status"></p>
+        </div>
+      </form>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contribution-form]');
+  const submitButton = document.querySelector<HTMLButtonElement>('[data-submit-button]');
+  const statusMessage = document.querySelector<HTMLElement>('[data-form-status]');
+
+  if (form && submitButton && statusMessage) {
+    let isSubmitting = false;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (isSubmitting) return;
+
+      isSubmitting = true;
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+      statusMessage.textContent = '';
+      statusMessage.removeAttribute('data-state');
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+
+        if (!response.ok) throw new Error('Formspree rejected the submission.');
+
+        form.reset();
+        statusMessage.dataset.state = 'success';
+        statusMessage.textContent = 'Thanks for contributing! Your result has been sent for review.';
+      } catch {
+        statusMessage.dataset.state = 'error';
+        statusMessage.textContent = 'Something went wrong. Please try again. Your entered information has been kept.';
+      } finally {
+        isSubmitting = false;
+        submitButton.disabled = false;
+        submitButton.textContent = 'Send contribution';
+      }
+    });
+  }
+</script>

@@ -23,6 +23,7 @@
   color: var(--text);
   background: var(--background);
   font-synthesis: none;
+  --font-title: "DM Serif Display", Georgia, serif;
 }
 
 :root[data-theme="dark"] {
@@ -39,6 +40,7 @@
   --header-muted: var(--muted-text);
   --potato-badge-background: var(--surface);
   --fries-badge-background: var(--surface);
+  --font-title: "DM Serif Display", Georgia, serif;
 }
 
 /* Base */
@@ -145,6 +147,7 @@ h1, h2, p { margin-top: 0; }
 
 .intro h1,
 .page-heading h1 {
+  font-family: var(--font-title);
   margin-bottom: 18px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(3rem, 9vw, 6.8rem);

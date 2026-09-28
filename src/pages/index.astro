@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+  <section class="intro">
+    <p class="eyebrow">LOW-SPEC PC GAME CATALOGUE</p>
+    <h1 class="home-wordmark">
+      <span>POTATO</span>
+      <span class="home-wordmark-approved">APPROVED</span>
+    </h1>
+    <p class="lede">Good PC games for computers that have to work a little harder.</p>
+  </section>
+
+  <div class="category-grid" aria-label="Browse by hardware category">
+    <a class="category-card category-potato" href="/potato/">
+      <span class="category-number">01</span>
+      <strong>POTATO APPROVED</strong>
+      <span>Integrated graphics and very low-end hardware.</span>
+      <span class="category-arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="category-card category-fries" href="/fries/">
+      <span class="category-number">02</span>
+      <strong>FRIES APPROVED</strong>
+      <span>A weak, old, or low-end dedicated GPU.</span>
+      <span class="category-arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</BaseLayout>

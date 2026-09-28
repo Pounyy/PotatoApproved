@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+import GameList from '../components/GameList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const games = await getCollection('games');
+---
+
+<BaseLayout title="Potato Approved games" description="PC games suited to integrated graphics and very low-end hardware.">
+  <header class="page-heading">
+    <p class="eyebrow">CATEGORY 01</p>
+    <h1>Potato Approved</h1>
+    <p>Games suited to integrated graphics and very low-end computers.</p>
+  </header>
+  <GameList games={games} category="potato" />
+</BaseLayout>

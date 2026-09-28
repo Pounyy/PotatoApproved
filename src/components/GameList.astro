@@ -1,0 +1,111 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  games: CollectionEntry<'games'>[];
+  category: 'potato' | 'fries';
+}
+
+const { games, category } = Astro.props;
+const categoryLabel = category === 'potato' ? 'Potato Approved' : 'Fries Approved';
+const sortedGames = [...games].sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<section class="catalogue" data-game-list data-category={category}>
+  <div class="search-wrap">
+    <label for="game-search">Search the whole catalogue</label>
+    <input
+      id="game-search"
+      type="search"
+      placeholder="Title, genre, year, hardware…"
+      autocomplete="off"
+      data-game-search
+    />
+    <p class="search-help" data-search-help>
+      Showing {categoryLabel} games. Start typing to search both categories.
+    </p>
+  </div>
+
+  <p class="result-count" aria-live="polite" data-result-count></p>
+
+  <div class="game-list" data-game-results>
+    {sortedGames.map(({ data }) => {
+      const searchable = [data.title, data.genre, data.year, data.hardware, data.description]
+        .join(' ')
+        .toLocaleLowerCase();
+
+      return (
+        <article
+          class="game-card"
+          data-game-card
+          data-category={data.category}
+          data-search={searchable}
+          hidden={data.category !== category}
+        >
+          <div class="cover-frame">
+            <img src={data.image} alt={`${data.title} cover placeholder`} width="180" height="270" loading="lazy" />
+          </div>
+          <div class="game-copy">
+            <div class="game-heading">
+              <h2>{data.title}</h2>
+              <span class:list={['badge', `badge-${data.category}`]}>
+                {data.category === 'potato' ? 'Potato Approved' : 'Fries Approved'}
+              </span>
+            </div>
+            <p class="game-meta">{data.genre} <span aria-hidden="true">·</span> {data.year}</p>
+            <dl class="specs">
+              <div><dt>Hardware</dt><dd>{data.hardware}</dd></div>
+              <div><dt>Performance</dt><dd>{data.performance}</dd></div>
+            </dl>
+            <p class="game-description">{data.description}</p>
+            {data.storeUrl && (
+              <a class="store-link" href={data.storeUrl} target="_blank" rel="noreferrer">
+                {data.storeLabel || 'View store'} <span aria-hidden="true">↗</span>
+              </a>
+            )}
+          </div>
+        </article>
+      );
+    })}
+  </div>
+
+  <p class="empty-state" data-empty-state hidden>No games match that search.</p>
+</section>
+
+<script>
+  const lists = document.querySelectorAll<HTMLElement>('[data-game-list]');
+
+  for (const list of lists) {
+    const input = list.querySelector<HTMLInputElement>('[data-game-search]');
+    const cards = Array.from(list.querySelectorAll<HTMLElement>('[data-game-card]'));
+    const resultCount = list.querySelector<HTMLElement>('[data-result-count]');
+    const help = list.querySelector<HTMLElement>('[data-search-help]');
+    const empty = list.querySelector<HTMLElement>('[data-empty-state]');
+    const pageCategory = list.dataset.category;
+
+    if (!input || !resultCount || !help || !empty || !pageCategory) continue;
+
+    const update = () => {
+      const query = input.value.trim().toLocaleLowerCase();
+      let visible = 0;
+
+      for (const card of cards) {
+        const matches = query
+          ? (card.dataset.search || '').includes(query)
+          : card.dataset.category === pageCategory;
+        card.hidden = !matches;
+        if (matches) visible += 1;
+      }
+
+      const label = visible === 1 ? 'game' : 'games';
+      resultCount.textContent = `${visible} ${label}`;
+      help.textContent = query
+        ? 'Searching Potato Approved and Fries Approved games.'
+        : `Showing ${pageCategory === 'potato' ? 'Potato Approved' : 'Fries Approved'} games. Start typing to search both categories.`;
+      empty.hidden = visible !== 0;
+    };
+
+    input.addEventListener('input', update);
+    update();
+  }
+</script>

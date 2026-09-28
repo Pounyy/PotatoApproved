@@ -1,0 +1,110 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Potato Approved',
+  description = 'A small catalogue of PC games for modest hardware.',
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const pageTitle = title === 'Potato Approved' ? title : `${title} · Potato Approved`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <script is:inline>
+      (() => {
+        const systemTheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        let theme = systemTheme();
+
+        try {
+          const savedTheme = localStorage.getItem('potato-approved-theme');
+          if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
+          else if (savedTheme) {
+            theme = 'dark';
+            localStorage.setItem('potato-approved-theme', 'dark');
+          }
+        } catch {
+          // The system preference remains the fallback if storage is unavailable.
+        }
+
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Main navigation">
+        <a class="wordmark" href="/">
+          <span>POTATO</span>
+          <span class="wordmark-approved">APPROVED</span>
+        </a>
+        <div class="nav-links">
+          <a href="/potato/" aria-current={pathname.startsWith('/potato') ? 'page' : undefined}>Potato Approved</a>
+          <a href="/fries/" aria-current={pathname.startsWith('/fries') ? 'page' : undefined}>Fries Approved</a>
+          <a href="/about/" aria-current={pathname.startsWith('/about') ? 'page' : undefined}>About</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+            <span class="theme-icon theme-icon-moon" aria-hidden="true">☾</span>
+            <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          </button>
+        </div>
+      </nav>
+    </header>
+    <main class="shell">
+      <slot />
+    </main>
+    <footer class="site-footer shell">
+      <span>Potato Approved</span>
+      <span>Good games. Modest hardware.</span>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+      const systemPreference = window.matchMedia('(prefers-color-scheme: dark)');
+      type Theme = 'light' | 'dark';
+
+      const applyTheme = (theme: Theme) => {
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        if (toggle) {
+          const isDark = theme === 'dark';
+          toggle.setAttribute('aria-pressed', String(isDark));
+          toggle.setAttribute('aria-label', `Switch to ${isDark ? 'light' : 'dark'} theme`);
+        }
+      };
+
+      const currentTheme: Theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+      applyTheme(currentTheme);
+
+      toggle?.addEventListener('click', () => {
+        const nextTheme: Theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+        try {
+          localStorage.setItem('potato-approved-theme', nextTheme);
+        } catch {
+          // The selected theme still applies for this page if storage is unavailable.
+        }
+      });
+
+      systemPreference.addEventListener('change', (event) => {
+        try {
+          if (localStorage.getItem('potato-approved-theme')) return;
+        } catch {
+          // Follow the system preference when storage is unavailable.
+        }
+        applyTheme(event.matches ? 'dark' : 'light');
+      });
+    </script>
+  </body>
+</html>

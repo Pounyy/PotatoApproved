@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450" role="img" aria-labelledby="title desc">
+  <title id="title">Celeste placeholder cover</title><desc id="desc">Typographic demo cover</desc>
+  <rect width="300" height="450" fill="#302820"/><rect x="18" y="18" width="264" height="414" fill="none" stroke="#8c7a45"/>
+  <text x="36" y="56" fill="#8c7a45" font-family="monospace" font-size="15">POTATO / DEMO COVER</text>
+  <text x="36" y="230" fill="#faf6ec" font-family="Georgia,serif" font-size="46">CELESTE</text>
+  <text x="36" y="392" fill="#c8b9a3" font-family="monospace" font-size="11">REPLACE WITH LICENSED ART</text>
+</svg>

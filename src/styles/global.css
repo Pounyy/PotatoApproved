@@ -23,7 +23,7 @@
   color: var(--text);
   background: var(--background);
   font-synthesis: none;
-  --font-title: "Futura", Georgia, serif;
+  --font-title: "Montserrat", Georgia, serif;
 }
 
 :root[data-theme="dark"] {
@@ -40,7 +40,7 @@
   --header-muted: var(--muted-text);
   --potato-badge-background: var(--surface);
   --fries-badge-background: var(--surface);
-  --font-title: "Futura", Georgia, serif;
+  --font-title: "Montserrat", Georgia, serif;
 }
 
 /* Base */
@@ -149,7 +149,7 @@ h1, h2, p { margin-top: 0; }
 .page-heading h1 {
   font-family: var(--font-title);
   margin-bottom: 18px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Montserrat, "Times New Roman", serif;
   font-size: clamp(3rem, 9vw, 6.8rem);
   line-height: .84;
   letter-spacing: 0em;

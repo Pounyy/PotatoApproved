@@ -134,7 +134,16 @@ a { color: inherit; }
 :root[data-theme="dark"] .theme-icon-sun { display: inline; }
 
 /* Home */
-.intro { max-width: 760px; padding: 88px 0 54px; }
+.intro {
+  padding: 88px 0 54px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 48px;
+}
+
+.intro-copy { max-width: 760px; }
+.intro-logo { width: 220px; height: auto; display: block; }
 
 .eyebrow {
   margin: 0 0 12px;
@@ -356,7 +365,8 @@ h1, h2, p { margin-top: 0; }
   .shell { width: min(100% - 28px, 1040px); }
   .nav { padding: 14px 0; align-items: flex-start; flex-direction: column; gap: 10px; }
   .nav-links { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 14px; }
-  .intro { padding: 58px 0 38px; }
+  .intro { padding: 58px 0 38px; grid-template-columns: 1fr; gap: 30px; }
+  .intro-logo { width: 140px; }
   .category-grid { grid-template-columns: 1fr; }
   .category-card { min-height: 190px; }
   .contribute-layout,

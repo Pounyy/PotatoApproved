@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://TON-SITE.neocities.org',
+  site: 'https://potatoapproved.neocities.org',
   output: 'static',
   integrations: [sitemap()],
 });

@@ -23,7 +23,7 @@
   color: var(--text);
   background: var(--background);
   font-synthesis: none;
-  --font-title: "futura", Georgia, serif;
+  --font-title: "Futura", Georgia, serif;
 }
 
 :root[data-theme="dark"] {
@@ -40,7 +40,7 @@
   --header-muted: var(--muted-text);
   --potato-badge-background: var(--surface);
   --fries-badge-background: var(--surface);
-  --font-title: "DM Serif Display", Georgia, serif;
+  --font-title: "Futura", Georgia, serif;
 }
 
 /* Base */

@@ -1,7 +1,7 @@
 ---
 title: Minecraft
 category: potato
-image: /games/ftl.svg
+image: /games/Minecraft_game_cover.jpeg
 year: 2011
 genre: Sandbox
 hardware: iGPU - Intel UHD 730 / I3 12300

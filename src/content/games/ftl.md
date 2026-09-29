@@ -1,12 +1,15 @@
 ---
-title: FTL — Faster Than Light
+title: Minecraft
 category: potato
 image: /games/ftl.svg
-year: 2012
-genre: Strategy Roguelike
-hardware: Integrated graphics (demo placeholder)
-performance: Native resolution · performance varies (demo placeholder)
-description: A lightweight strategy game used here as demo content. Hardware and performance still need verification.
-storeUrl: https://store.steampowered.com/app/212680/FTL_Faster_Than_Light/
+year: 2011
+genre: Sandbox
+hardware: iGPU - Intel UHD 730 / I3 12300
+performance: "1080 60FPS / High "
+description: |-
+  Potato Approved - Vanilla Game
+
+  /!\ May struggle with shaders or heavily modded versions /!\
+storeUrl: https://www.minecraft.net/fr-fr
 storeLabel: View on Steam
 ---

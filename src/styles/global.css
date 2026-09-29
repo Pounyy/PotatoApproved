@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap');
 
 /* Theme */
 :root {
@@ -25,7 +25,7 @@
   color: var(--text);
   background: var(--background);
   font-synthesis: none;
-  --font-title: "League Spartan", Arial, sans-serif;
+  --font-title: "Montserrat", Arial, sans-serif;
 }
 
 :root[data-theme="dark"] {
@@ -42,7 +42,7 @@
   --header-muted: var(--muted-text);
   --potato-badge-background: var(--surface);
   --fries-badge-background: var(--surface);
-  --font-title: "League Spartan", Arial, sans-serif;
+  --font-title: "Montserrat", Arial, sans-serif;
 }
 
 /* Base */
@@ -191,6 +191,7 @@ h1, h2, p { margin-top: 0; }
 .category-potato { border-top: 7px solid var(--potato-accent); }
 .category-number { color: var(--muted-text); font-family: Consolas, monospace; font-size: .76rem; }
 .category-card strong { margin: auto 0 5px; font-family: var(--font-title); font-size: clamp(2.15rem, 5vw, 3.8rem); line-height: .95; letter-spacing: -.025em; }
+.category-fries strong { width: min-content; }
 .category-card > span:not(.category-number, .category-arrow) { max-width: 310px; color: var(--muted-text); font-size: .9rem; }
 .category-arrow { position: absolute; right: 24px; bottom: 22px; font-size: 1.6rem; }
 

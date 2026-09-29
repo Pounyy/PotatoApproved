@@ -11,5 +11,5 @@ description: |-
 
   /!\ May struggle with shaders or heavily modded versions /!\
 storeUrl: https://www.minecraft.net/fr-fr
-storeLabel: View on Steam
+storeLabel: Official Website
 ---

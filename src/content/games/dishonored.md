@@ -1,7 +1,7 @@
 ---
 title: Dishonored
 category: fries
-image: /games/dishonored.svg
+image: /games/patate.webp
 year: 2012
 genre: Immersive Sim
 hardware: test

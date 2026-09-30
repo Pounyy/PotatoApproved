@@ -9,6 +9,6 @@ performance: "1080 60FPS - High "
 description: |-
   Potato Approved - Vanilla Game  
   /!\ May struggle with shaders or heavily modded versions /!\
-storeUrl: https://www.minecraft.net/fr-fr
+storeUrl: https://www.minecraft.net
 storeLabel: Official Website
 ---

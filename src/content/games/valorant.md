@@ -8,6 +8,6 @@ hardware: "    iGPU - Intel UHD 730 / I3 12300"
 performance: 1080 60+ FPS - Low
 description: Potato Approved / Runs at 100+ FPS, with occasional 1% lows near 60
   FPS. A 60FPS cap is recommended for smoother performance.
-storeUrl: https://playvalorant.com/fr-fr/
+storeUrl: https://playvalorant.com
 storeLabel: Official Website
 ---

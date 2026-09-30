@@ -8,11 +8,12 @@ interface Props {
 
 const {
   title = 'Potato Approved',
-  description = 'A small catalogue of PC games for modest hardware.',
+  description = 'PC games that run well on modest and low-end hardware. Simple performance recommendations for potato PCs.',
 } = Astro.props;
 
 const pathname = Astro.url.pathname;
 const pageTitle = title === 'Potato Approved' ? title : `${title} · Potato Approved`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
@@ -41,8 +42,15 @@ const pageTitle = title === 'Potato Approved' ? title : `${title} · Potato Appr
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/png" href="/favicon.webp" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Potato Approved" />
+    <link rel="icon" type="image/webp" href="/favicon.webp" />
     <title>{pageTitle}</title>
   </head>
   <body>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://potatoapproved.neocities.org/sitemap-index.xml
